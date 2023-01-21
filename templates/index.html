@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vast.ai price tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>Vast.ai price tracker</h1>
+    <form>
+        <label for="gpu_select">Select GPU:</label>
+        <select id="gpu_select" name="gpu_select">
+            <option value="RTX 3090">RTX 3090</option>
+            <option value="RTX 4090">RTX 4090</option>
+            <option value="RTX A5000">RTX A5000</option>
+        </select>
+        <br><br>
+        <label for="storage_cost">Storage cost:</label>
+        <input type="number" id="storage_cost" name="storage_cost" min="0" step="0.01" value="0.01">
+        <br><br>
+        <label for="inet_down">Inet down:</label>
+        <input type="number" id="inet_down" name="inet_down" min="0" value="100">
+        <br><br>
+        <label for="inet_up">Inet up:</label>
+        <input type="number" id="inet_up" name="inet_up" min="0" value="100">
+        <br><br>
+        <button type='button' onclick="fetchData()">Get History!</button> 
+    </form>
+    <br>
+    <canvas id="myChart"></canvas>
+    <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: [],
+              datasets: [{
+                  label: 'Graphique des prix de la carte Sélectionner',
+                  data: [],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+      
+      function fetchData() {
+        $.ajax({
+          url: '/data',
+          type: 'GET',
+          data: { gpu_name: $("#gpu_select").val(), storage_cost: $("#storage_cost").val(), inet_down: $("#inet_down").val(), inet_up: $("#inet_up").val() },
+          success: function(data) {
+            myChart.data.labels = data.dates;
+            myChart.data.datasets[0].data = data.prices;
+            myChart.update();
+          }
+        });
+      }
+
+    </script>
+  </body>
+</html>
