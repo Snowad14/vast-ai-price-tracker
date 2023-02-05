@@ -3,6 +3,9 @@
     {
       "src": "main.py",
       "use": "@vercel/python"
+      "env": {
+        "APT_GET_INSTALL": "python3-dev default-libmysqlclient-dev build-essential"
+      }
     }
   ],
   "routes": [
