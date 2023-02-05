@@ -5,6 +5,6 @@
 ## 📋 Installation
   ```bash
   pip install -r requirements.txt
-  Create .env and write VAST-AI-AUTHKEY="YOUR-VAST.AI-API-KEY"
+  Create .env and write VAST_AI_AUTHKEY="YOUR-VAST.AI-API-KEY" and DB_URI="SQL_URI_DB"
   python main.py
   ```
