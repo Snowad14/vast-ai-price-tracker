@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "python:3.9",
+      "command": "pip install -r requirements.txt && python main.py"
+    }
+  ]
+}
