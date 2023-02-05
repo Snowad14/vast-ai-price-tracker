@@ -3,4 +3,4 @@ Flask-SQLAlchemy
 requests
 apscheduler
 python-dotenv
-mysqlclient
+pymysql
