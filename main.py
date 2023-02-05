@@ -4,6 +4,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from dotenv import load_dotenv; load_dotenv()
 from datetime import datetime
 import requests, os
+import pymysql
+pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 #file_path = os.path.abspath(os.getcwd())+"\\database.db"
