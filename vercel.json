@@ -1,4 +1,5 @@
 {
+  "installCommand": "sudo apt-get install default-libmysqlclient-dev build-essential"
   "builds": [
     {
       "src": "main.py",
