@@ -6,8 +6,9 @@ from datetime import datetime
 import requests, os
 
 app = Flask(__name__)
-file_path = os.path.abspath(os.getcwd())+"\\database.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+#file_path = os.path.abspath(os.getcwd())+"\\database.db"
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_URI")
 db = SQLAlchemy(app)
 scheduler = BackgroundScheduler()
 
@@ -28,13 +29,13 @@ class Data(db.Model):
         self.inet_down = inet_down
         self.inet_up = inet_up
 
-@scheduler.scheduled_job('interval', minutes=1)
+@scheduler.scheduled_job('interval', minutes=8)
 def job():
     url = "https://console.vast.ai/api/v0/bundles"
 
     query = {
         'q': '{"verified": {"eq": true}, "external": {"eq": false}, "rentable": {"eq": true}, "disk_space": {"gt": "50"}, "num_gpus": {"eq": "1"}, "order": [["score", "desc"]], "type": "on-demand"}',
-        'api_key': os.getenv("VAST-AI-AUTHKEY")
+        'api_key': os.getenv("VAST_AI_AUTHKEY")
     }
     try:
         response = requests.get(url, params=query).json()
